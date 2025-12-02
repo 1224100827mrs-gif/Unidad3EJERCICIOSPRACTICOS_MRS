@@ -16,3 +16,12 @@
 |---------|----------|
 |https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/Ej01_SimulacionPaginaWeb.md|https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/EvidenciaDePrueba.mp4|
 
+## EJERCICIO PRACTICO 2 SWING
+| CÓDIGO|  VIDEO DE EVIDENCIA |
+|---------|----------|
+|https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/Ej2_ArbolApp.md|https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/EJ2_EvidenciaFuncionalidad.mp4|
+
+## EJERCICIO PRACTICO 3 SWING
+| CÓDIGO|  VIDEO DE EVIDENCIA |
+|---------|----------|
+|https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/Ej3_usarConjutos.md |https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/EJ3EvidenciaGestionUsuarios.mp4 |

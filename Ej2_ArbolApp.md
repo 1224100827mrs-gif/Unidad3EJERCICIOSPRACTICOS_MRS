@@ -2,10 +2,7 @@
 
 ### Clase Nodo
  ``` java
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package ArbolBinarioApp;
 /**
  * Clase que representa un nodo dentro de un Árbol Binario de Búsqueda.
@@ -294,10 +291,6 @@ public class ArbolBinarioBusqueda {
 ```
 ### Clase ArbolGUI
  ``` java
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ArbolBinarioApp;
 /**
  * Interfaz gráfica para visualizar e interactuar con un Árbol Binario de Búsqueda.

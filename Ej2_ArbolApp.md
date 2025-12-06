@@ -50,12 +50,19 @@ public class Nodo {
  ``` java
 
 package ArbolBinarioApp;
+
 /**
  * Implementación de un Árbol Binario de Búsqueda (ABB),
  * que permite insertar, buscar, eliminar nodos, realizar recorridos
  * y limpiar la estructura completa.
  * Cada nodo almacena un valor entero único (no se permiten duplicados).
- * @author: Marisol Rincón Solís
+ * 
+ * Esta versión incluye la capacidad de identificar visualmente
+ * cuál fue el último nodo encontrado durante una búsqueda, permitiendo
+ * que la interfaz gráfica lo resalte en color rojo.
+ * 
+ * @author 
+ *      Marisol Rincón Solís
  */
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +78,12 @@ public class ArbolBinarioBusqueda {
     /** Nodo temporal para almacenar resultados de búsqueda. */
     private Nodo nodoEncontrado;
 
+    /** 
+     * Nodo encontrado en la búsqueda más reciente.
+     * Se usa únicamente para resaltarlo visualmente en la GUI.
+     */
+    private Nodo nodoBuscadoVisual;
+
     /**
      * Constructor: inicializa el árbol vacío.
      */
@@ -78,10 +91,13 @@ public class ArbolBinarioBusqueda {
         this.raiz = null;
         this.recorridoActual = new ArrayList<>();
         this.nodoEncontrado = null;
+        this.nodoBuscadoVisual = null;
     }
+
     /**
      * Inserta un valor en el árbol.
      * Si el árbol está vacío, crea la raíz.
+     * 
      * @param valor valor entero a insertar.
      * @return true si la inserción fue exitosa, false si el valor ya existe.
      */
@@ -92,14 +108,13 @@ public class ArbolBinarioBusqueda {
         }
         return insertarRecursivo(raiz, valor);
     }
+
     /**
      * Inserta un nodo de forma recursiva respetando las reglas del ABB.
-     * @param actual nodo actual del recorrido.
-     * @param valor valor a insertar.
-     * @return true si se insertó exitosamente, false si es duplicado.
      */
     private boolean insertarRecursivo(Nodo actual, int valor) {
         if (valor < actual.valor) {
+
             if (actual.izquierdo == null) {
                 actual.izquierdo = new Nodo(valor);
                 return true;
@@ -107,6 +122,7 @@ public class ArbolBinarioBusqueda {
             return insertarRecursivo(actual.izquierdo, valor);
 
         } else if (valor > actual.valor) {
+
             if (actual.derecho == null) {
                 actual.derecho = new Nodo(valor);
                 return true;
@@ -114,25 +130,32 @@ public class ArbolBinarioBusqueda {
             return insertarRecursivo(actual.derecho, valor);
 
         } else {
-            return false; // No se permiten duplicados
+            return false; // no se permiten duplicados
         }
     }
+
     /**
      * Busca un valor dentro del árbol.
+     * 
+     * Además de devolver el nodo encontrado, esta versión también
+     * registra dicho nodo en la variable nodoBuscadoVisual para que
+     * la interfaz gráfica pueda resaltarlo visualmente.
+     * 
      * @param valor valor a buscar.
-     * @return nodo encontrado, o null si no existe.
+     * @return nodo encontrado o null si no existe.
      */
     public Nodo buscar(int valor) {
         nodoEncontrado = null;
         buscarRecursivo(raiz, valor);
+
+        // <<< NUEVO: guardar el nodo para resaltarlo en rojo >>>
+        nodoBuscadoVisual = nodoEncontrado;
+
         return nodoEncontrado;
     }
 
     /**
      * Realiza la búsqueda de forma recursiva.
-     * 
-     * @param actual nodo actual del recorrido.
-     * @param valor valor a buscar.
      */
     private void buscarRecursivo(Nodo actual, int valor) {
         if (actual == null) return;
@@ -147,26 +170,34 @@ public class ArbolBinarioBusqueda {
             buscarRecursivo(actual.derecho, valor);
         }
     }
+
     /**
-     * Elimina un nodo con el valor indicado.
+     * Devuelve el nodo que debe mostrarse resaltado en la interfaz gráfica.
      * 
-     * @param valor valor a eliminar.
-     * @return true si el nodo fue eliminado, false si no se encontró.
+     * @return nodo recientemente encontrado o null si no existe.
      */
-    public boolean eliminar(int valor) {
-        if (raiz == null) return false;
-        raiz = eliminarRecursivo(raiz, valor);
-        return raiz != null;
+    public Nodo getNodoBuscadoVisual() {
+        return nodoBuscadoVisual;
     }
 
     /**
-     * Elimina un nodo del árbol aplicando los 3 casos de eliminación:
-     * 1. Nodo sin hijos
-     * 2. Nodo con un hijo
-     * 3. Nodo con dos hijos (se reemplaza por el sucesor)
-     * @param actual nodo actual del recorrido.
-     * @param valor valor a eliminar.
-     * @return nodo ajustado después de la eliminación.
+     * Elimina un nodo con el valor indicado.
+     */
+    public boolean eliminar(int valor) {
+        if (raiz == null) return false;
+
+        raiz = eliminarRecursivo(raiz, valor);
+
+        // <<< NUEVO: si el nodo eliminado era el resaltado, se limpia >>>
+        if (nodoBuscadoVisual != null && nodoBuscadoVisual.valor == valor) {
+            nodoBuscadoVisual = null;
+        }
+
+        return true;
+    }
+
+    /**
+     * Elimina un nodo del árbol aplicando los 3 casos de eliminación.
      */
     private Nodo eliminarRecursivo(Nodo actual, int valor) {
         if (actual == null) return null;
@@ -177,19 +208,20 @@ public class ArbolBinarioBusqueda {
         } else if (valor > actual.valor) {
             actual.derecho = eliminarRecursivo(actual.derecho, valor);
 
-        } else { // Nodo encontrado
-
+        } else { 
+            // Caso 1: sin hijos
             if (actual.izquierdo == null && actual.derecho == null) {
-                return null; // Caso 1
+                return null;
 
+            // Caso 2: un hijo
             } else if (actual.izquierdo == null) {
-                return actual.derecho; // Caso 2
+                return actual.derecho;
 
             } else if (actual.derecho == null) {
-                return actual.izquierdo; // Caso 2
+                return actual.izquierdo;
 
             } else {
-                // Caso 3
+                // Caso 3: dos hijos (sucesor)
                 Nodo sucesor = encontrarMinimo(actual.derecho);
                 actual.valor = sucesor.valor;
                 actual.derecho = eliminarRecursivo(actual.derecho, sucesor.valor);
@@ -200,9 +232,6 @@ public class ArbolBinarioBusqueda {
 
     /**
      * Encuentra el valor mínimo dentro de un subárbol.
-     * Se utiliza para encontrar al sucesor en eliminación.
-     * @param nodo nodo desde el cual buscar el mínimo.
-     * @return nodo con el valor más pequeño.
      */
     private Nodo encontrarMinimo(Nodo nodo) {
         while (nodo.izquierdo != null) {
@@ -210,94 +239,49 @@ public class ArbolBinarioBusqueda {
         }
         return nodo;
     }
+
+    /** Recorridos del árbol */
+    public List<Integer> inOrden() { recorridoActual.clear(); inOrdenRecursivo(raiz); return new ArrayList<>(recorridoActual); }
+    private void inOrdenRecursivo(Nodo actual) { if (actual!=null){ inOrdenRecursivo(actual.izquierdo); recorridoActual.add(actual.valor); inOrdenRecursivo(actual.derecho);} }
+
+    public List<Integer> preOrden() { recorridoActual.clear(); preOrdenRecursivo(raiz); return new ArrayList<>(recorridoActual); }
+    private void preOrdenRecursivo(Nodo actual){ if(actual!=null){ recorridoActual.add(actual.valor); preOrdenRecursivo(actual.izquierdo); preOrdenRecursivo(actual.derecho);} }
+
+    public List<Integer> postOrden(){ recorridoActual.clear(); postOrdenRecursivo(raiz); return new ArrayList<>(recorridoActual); }
+    private void postOrdenRecursivo(Nodo actual){ if(actual!=null){ postOrdenRecursivo(actual.izquierdo); postOrdenRecursivo(actual.derecho); recorridoActual.add(actual.valor);} }
+
     /**
-     * Realiza un recorrido InOrden (izquierda - raíz - derecha).
-     * @return lista con los valores en orden ascendente.
-     */
-    public List<Integer> inOrden() {
-        recorridoActual.clear();
-        inOrdenRecursivo(raiz);
-        return new ArrayList<>(recorridoActual);
-    }
-    /** Recorrido InOrden recursivo. */
-    private void inOrdenRecursivo(Nodo actual) {
-        if (actual != null) {
-            inOrdenRecursivo(actual.izquierdo);
-            recorridoActual.add(actual.valor);
-            inOrdenRecursivo(actual.derecho);
-        }
-    }
-    /**
-     * Realiza un recorrido PreOrden (raíz - izquierda - derecha).
-     * @return lista con los valores recorridos.
-     */
-    public List<Integer> preOrden() {
-        recorridoActual.clear();
-        preOrdenRecursivo(raiz);
-        return new ArrayList<>(recorridoActual);
-    }
-    /** Recorrido PreOrden recursivo. */
-    private void preOrdenRecursivo(Nodo actual) {
-        if (actual != null) {
-            recorridoActual.add(actual.valor);
-            preOrdenRecursivo(actual.izquierdo);
-            preOrdenRecursivo(actual.derecho);
-        }
-    }
-    /**
-     * Realiza un recorrido PostOrden (izquierda - derecha - raíz).
-     * @return lista con los valores recorridos.
-     */
-    public List<Integer> postOrden() {
-        recorridoActual.clear();
-        postOrdenRecursivo(raiz);
-        return new ArrayList<>(recorridoActual);
-    }
-    /** Recorrido PostOrden recursivo. */
-    private void postOrdenRecursivo(Nodo actual) {
-        if (actual != null) {
-            postOrdenRecursivo(actual.izquierdo);
-            postOrdenRecursivo(actual.derecho);
-            recorridoActual.add(actual.valor);
-        }
-    }
-    /**
-     * Limpia completamente el árbol.
-     * Deja la raíz en null, borra recorridos y resultados previos.
+     * Limpia completamente el árbol y elimina cualquier nodo resaltado.
      */
     public void limpiar() {
         raiz = null;
         recorridoActual.clear();
         nodoEncontrado = null;
-    }
-    /**
-     * Obtiene la raíz actual del árbol.
-     * 
-     * @return nodo raíz del árbol.
-     */
-    public Nodo getRaiz() {
-        return raiz;
+
+        // <<< NUEVO: eliminar nodo resaltado >>>
+        nodoBuscadoVisual = null;
     }
 
-    /**
-     * Verifica si el árbol está vacío.
-     * @return true si la raíz es null, false si contiene elementos.
-     */
-    public boolean estaVacio() {
-        return raiz == null;
-    }
+    /** Devuelve la raíz actual del árbol. */
+    public Nodo getRaiz() { return raiz; }
+
+    /** Verifica si el árbol está vacío. */
+    public boolean estaVacio() { return raiz == null; }
 }
+
 
 ```
 ### Clase ArbolGUI
  ``` java
+
 package ArbolBinarioApp;
+
 /**
  * Interfaz gráfica para visualizar e interactuar con un Árbol Binario de Búsqueda.
  * Permite insertar, eliminar, buscar nodos, ver recorridos y mostrar el árbol dibujado.
- * Incluye botones de control, área de texto para recorridos
- * y un panel gráfico donde se representa el árbol de manera visual.
- * @author: Marisol Rincón Solís
+ * Ahora también permite resaltar en color rojo el nodo encontrado mediante una búsqueda.
+ * 
+ * @author Marisol Rincón Solís
  */
 import javax.swing.*;
 import java.awt.*;
@@ -310,16 +294,16 @@ public class ArbolGUI extends JFrame {
     /** Árbol binario de búsqueda utilizado en la interfaz. */
     private ArbolBinarioBusqueda arbol;
 
-    /** Campo para que el usuario ingrese valores numéricos. */
+    /** Campo para ingresar valores. */
     private JTextField txtValor;
 
-    /** Área donde se muestran los recorridos del árbol. */
+    /** Área donde se muestran los recorridos. */
     private JTextArea txtRecorrido;
 
-    /** Panel donde se dibuja el árbol visualmente. */
+    /** Panel donde se dibuja el árbol. */
     private JPanel panelArbol;
 
-    /** Etiqueta para mostrar mensajes al usuario. */
+    /** Etiqueta de mensajes. */
     private JLabel lblMensaje;
 
     /**
@@ -338,7 +322,7 @@ public class ArbolGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Panel superior - controles
+        // Panel superior
         JPanel panelSuperior = new JPanel(new FlowLayout());
         panelSuperior.add(new JLabel("Valor:"));
         txtValor = new JTextField(5);
@@ -364,28 +348,26 @@ public class ArbolGUI extends JFrame {
         panelRecorridos.add(btnPostOrden);
         panelRecorridos.add(btnLimpiar);
 
-        // Agrupar paneles superiores
         JPanel panelControles = new JPanel(new GridLayout(2, 1));
         panelControles.add(panelSuperior);
         panelControles.add(panelRecorridos);
 
         add(panelControles, BorderLayout.NORTH);
 
-        // Panel central - dibujo del árbol
+        // Panel central: dibujo del árbol
         panelArbol = new JPanel() {
-            /**
-             * Dibuja el árbol en el panel.
-             */
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+
+                // Se dibuja el árbol completo y se resalta si hubo nodo encontrado
                 dibujarArbol(g, getWidth() / 2, 50, arbol.getRaiz(), getWidth() / 4);
             }
         };
         panelArbol.setBackground(Color.WHITE);
         add(new JScrollPane(panelArbol), BorderLayout.CENTER);
 
-        // Panel inferior - recorridos y mensajes
+        // Panel inferior
         JPanel panelInferior = new JPanel(new BorderLayout());
         txtRecorrido = new JTextArea(5, 30);
         txtRecorrido.setEditable(false);
@@ -396,87 +378,23 @@ public class ArbolGUI extends JFrame {
 
         add(panelInferior, BorderLayout.SOUTH);
 
-        // ---- LISTENERS ----
-
-        btnInsertar.addActionListener(new ActionListener() {
-            /**
-             * Listener para insertar un nodo.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                insertarNodo();
-            }
-        });
-
-        btnEliminar.addActionListener(new ActionListener() {
-            /**
-             * Listener para eliminar un nodo.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                eliminarNodo();
-            }
-        });
-
-        btnBuscar.addActionListener(new ActionListener() {
-            /**
-             * Listener para buscar un nodo.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buscarNodo();
-            }
-        });
-
-        btnInOrden.addActionListener(new ActionListener() {
-            /**
-             * Listener para mostrar el recorrido InOrden.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mostrarRecorrido("InOrden", arbol.inOrden());
-            }
-        });
-
-        btnPreOrden.addActionListener(new ActionListener() {
-            /**
-             * Listener para mostrar el recorrido PreOrden.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mostrarRecorrido("PreOrden", arbol.preOrden());
-            }
-        });
-
-        btnPostOrden.addActionListener(new ActionListener() {
-            /**
-             * Listener para mostrar el recorrido PostOrden.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mostrarRecorrido("PostOrden", arbol.postOrden());
-            }
-        });
-
-        btnLimpiar.addActionListener(new ActionListener() {
-            /**
-             * Listener para limpiar el árbol.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                arbol.limpiar();
-                actualizarVista();
-                lblMensaje.setText("Árbol limpiado");
-            }
+        // LISTENERS
+        btnInsertar.addActionListener(e -> insertarNodo());
+        btnEliminar.addActionListener(e -> eliminarNodo());
+        btnBuscar.addActionListener(e -> buscarNodo());
+        btnInOrden.addActionListener(e -> mostrarRecorrido("InOrden", arbol.inOrden()));
+        btnPreOrden.addActionListener(e -> mostrarRecorrido("PreOrden", arbol.preOrden()));
+        btnPostOrden.addActionListener(e -> mostrarRecorrido("PostOrden", arbol.postOrden()));
+        btnLimpiar.addActionListener(e -> {
+            arbol.limpiar();
+            actualizarVista();
+            lblMensaje.setText("Árbol limpiado");
         });
 
         setSize(800, 600);
         setLocationRelativeTo(null);
     }
 
-    /**
-     * Obtiene el valor escrito y lo inserta en el árbol.
-     */
     private void insertarNodo() {
         try {
             int valor = Integer.parseInt(txtValor.getText());
@@ -492,27 +410,23 @@ public class ArbolGUI extends JFrame {
         txtValor.setText("");
     }
 
-    /**
-     * Obtiene el valor escrito y elimina el nodo del árbol si existe.
-     */
     private void eliminarNodo() {
         try {
             int valor = Integer.parseInt(txtValor.getText());
+
             if (arbol.eliminar(valor)) {
                 lblMensaje.setText("Nodo " + valor + " eliminado correctamente");
                 actualizarVista();
             } else {
                 lblMensaje.setText("No se pudo eliminar el nodo " + valor);
             }
+
         } catch (NumberFormatException ex) {
             lblMensaje.setText("Error: Ingrese un número válido");
         }
         txtValor.setText("");
     }
 
-    /**
-     * Busca un nodo según el valor introducido y muestra si fue encontrado.
-     */
     private void buscarNodo() {
         try {
             int valor = Integer.parseInt(txtValor.getText());
@@ -523,6 +437,8 @@ public class ArbolGUI extends JFrame {
             } else {
                 lblMensaje.setText("Nodo " + valor + " NO encontrado");
             }
+
+            // Se repinta para mostrar el nodo en rojo
             panelArbol.repaint();
 
         } catch (NumberFormatException ex) {
@@ -531,12 +447,6 @@ public class ArbolGUI extends JFrame {
         txtValor.setText("");
     }
 
-    /**
-     * Muestra en pantalla el recorrido solicitado.
-     * 
-     * @param tipo nombre del recorrido (InOrden, PreOrden, PostOrden).
-     * @param recorrido lista de valores obtenidos.
-     */
     private void mostrarRecorrido(String tipo, List<Integer> recorrido) {
         if (arbol.estaVacio()) {
             txtRecorrido.setText("El árbol está vacío");
@@ -555,24 +465,41 @@ public class ArbolGUI extends JFrame {
     }
 
     /**
-     * Dibuja recursivamente el árbol en el panel.
+     * Dibuja recursivamente el árbol.
      * 
-     * @param g objeto gráfico para dibujar.
-     * @param x coordenada X del nodo.
-     * @param y coordenada Y del nodo.
+     * Esta versión resalta en color rojo el nodo que fue encontrado en la
+     * última operación de búsqueda, utilizando la referencia obtenida desde
+     * ArbolBinarioBusqueda.getNodoBuscadoVisual().
+     * 
+     * @param g objeto gráfico.
+     * @param x posición X del nodo.
+     * @param y posición Y del nodo.
      * @param nodo nodo actual a dibujar.
      * @param xOffset separación horizontal entre niveles.
      */
     private void dibujarArbol(Graphics g, int x, int y, Nodo nodo, int xOffset) {
         if (nodo == null) return;
 
-        g.setColor(Color.LIGHT_GRAY);
+        // <<< NUEVO: Determinar si el nodo debe mostrarse resaltado >>>
+        boolean esBuscado = (nodo == arbol.getNodoBuscadoVisual());
+
+        // Fondo del nodo
+        if (esBuscado) {
+            g.setColor(Color.RED); // nodo encontrado → rojo
+        } else {
+            g.setColor(Color.LIGHT_GRAY);
+        }
+
         g.fillOval(x - 15, y - 15, 30, 30);
 
+        // Borde del nodo
         g.setColor(Color.BLACK);
         g.drawOval(x - 15, y - 15, 30, 30);
+
+        // Texto del nodo
         g.drawString(String.valueOf(nodo.valor), x - 5, y + 5);
 
+        // Dibujo de conexiones e hijos
         if (nodo.izquierdo != null) {
             int xLeft = x - xOffset;
             int yLeft = y + 60;
@@ -588,14 +515,12 @@ public class ArbolGUI extends JFrame {
         }
     }
 
-    /**
-     * Actualiza la vista gráfica del árbol y limpia el área de recorridos.
-     */
     private void actualizarVista() {
         panelArbol.repaint();
         txtRecorrido.setText("");
     }
 }
+
 ```
 ### Clase Main
  ``` java

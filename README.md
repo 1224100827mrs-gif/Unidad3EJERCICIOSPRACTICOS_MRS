@@ -18,7 +18,7 @@
 
 | **Archivo de Código** | **Video de Evidencia** |
 |-----------------------|------------------------|
-| [Ver código](https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/Ej01_SimulacionPaginaWeb.md) | [Ver video](https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/EvidenciaDePrueba.mp4) |
+| [Ver código](https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/Ej01_SimulacionPaginaWeb.md) | [Ver video](https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/EJERCICIO1VIDEO.mp4) |
 
 ---
 

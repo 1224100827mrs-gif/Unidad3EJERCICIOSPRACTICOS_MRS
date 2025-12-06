@@ -634,3 +634,16 @@ public class Main {
     }
 }
 ```
+# PRUBA 1 INSERCCION
+<img width="740" height="571" alt="image" src="https://github.com/user-attachments/assets/966b5e28-f811-4ebe-adaf-26fb1ad61595" />
+#PRUEBA 2 Prueba de Recorridos (Validación de Orden)
+### en la parte inferior aparece el recorrido en Innorden
+<img width="758" height="468" alt="image" src="https://github.com/user-attachments/assets/3ac05b15-9f12-4a84-9a7c-764124d14ecb" />
+### en la parte inferior aparece el recorrido en Preorden 
+<img width="1364" height="622" alt="image" src="https://github.com/user-attachments/assets/b30412ac-8d56-4271-9c3e-e715f6c3637a" />
+### en la parte inferior aparece el recorrido en PostOrden
+<img width="740" height="568" alt="image" src="https://github.com/user-attachments/assets/cdef603d-e186-4efe-97e2-4a5751b8d383" />
+
+
+
+

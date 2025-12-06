@@ -34,6 +34,6 @@
 
 | **Archivo de Código** | **Video de Evidencia** |
 |-----------------------|------------------------|
-| [Ver código](https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/Ej3_usarConjutos.md) | [Ver video](https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/EJ3EvidenciaGestionUsuarios.mp4) |
+| [Ver código](https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/Ej3_usarConjutos.md) | [Ver video](https://github.com/1224100827mrs-gif/Unidad3EJERCICIOSPRACTICOS_MRS/blob/main/EJERCICIO3%20VIDEO.mp4) |
 
 ---

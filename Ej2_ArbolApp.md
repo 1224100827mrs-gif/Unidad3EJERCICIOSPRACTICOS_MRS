@@ -636,13 +636,26 @@ public class Main {
 ```
 # PRUBA 1 INSERCCION
 <img width="740" height="571" alt="image" src="https://github.com/user-attachments/assets/966b5e28-f811-4ebe-adaf-26fb1ad61595" />
-#PRUEBA 2 Prueba de Recorridos (Validación de Orden)
+# PRUEBA 2 Prueba de Recorridos (Validación de Orden)
 ### en la parte inferior aparece el recorrido en Innorden
 <img width="758" height="468" alt="image" src="https://github.com/user-attachments/assets/3ac05b15-9f12-4a84-9a7c-764124d14ecb" />
 ### en la parte inferior aparece el recorrido en Preorden 
 <img width="1364" height="622" alt="image" src="https://github.com/user-attachments/assets/b30412ac-8d56-4271-9c3e-e715f6c3637a" />
 ### en la parte inferior aparece el recorrido en PostOrden
 <img width="740" height="568" alt="image" src="https://github.com/user-attachments/assets/cdef603d-e186-4efe-97e2-4a5751b8d383" />
+
+# Prueba de Busqeda
+<img width="1361" height="615" alt="image" src="https://github.com/user-attachments/assets/ad9e6a23-4570-46a5-8605-de70f5bc3e4e" />
+<img width="1334" height="715" alt="image" src="https://github.com/user-attachments/assets/105da5ba-c963-4180-a545-fc4171870fe6" />
+
+# Grupo 4: Prueba de Eliminación (Casos Críticos)
+### Caso 1
+<img width="1324" height="700" alt="image" src="https://github.com/user-attachments/assets/95cccf6f-70f8-4ac7-b601-f76dfa074a6b" />
+
+### Caso 2
+<img width="1364" height="676" alt="image" src="https://github.com/user-attachments/assets/e876ecc2-0076-40de-902c-e6d1c5590c5c" />
+
+
 
 
 
